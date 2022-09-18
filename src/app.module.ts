@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from './posts/posts.module';
 import { PostsEntity } from './posts/entities/post.entity';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { PostsEntity } from './posts/entities/post.entity';
       synchronize: true, // 自动载入的模型将同步
     }),
     PostsModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

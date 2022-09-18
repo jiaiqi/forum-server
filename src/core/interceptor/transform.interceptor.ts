@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 
+interface Response<T> {
+  data: T;
+}
+
 @Injectable()
 export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
