@@ -23,7 +23,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, docConfig);
   SwaggerModule.setup('docs', app, document);
 
-  console.log(`nest app is run on prot:${PORT}`);
   await app.listen(PORT);
 }
 bootstrap();
