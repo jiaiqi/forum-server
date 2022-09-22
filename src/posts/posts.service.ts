@@ -1,11 +1,15 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { PostsEntity } from './entities/post.entity';
 
 export interface PostsRo {
   list: PostsEntity[];
-  count: number;
+  page: {
+    count: number;
+    pageSize: number;
+    pageNum: number;
+  };
 }
 @Injectable()
 export class PostsService {
@@ -29,7 +33,7 @@ export class PostsService {
 
   // 获取文章列表
   async findAll(query): Promise<PostsRo> {
-    const qb = await getRepository(PostsEntity).createQueryBuilder('post');
+    const qb = await this.postsRepository.createQueryBuilder('post');
     qb.where('1 = 1');
     qb.orderBy('post.create_time', 'DESC');
 
@@ -39,11 +43,20 @@ export class PostsService {
     qb.offset(pageSize * (pageNum - 1));
 
     const posts = await qb.getMany();
-    return { list: posts, count: count };
+    return {
+      list: posts,
+      page: {
+        count,
+        pageSize,
+        pageNum,
+      },
+    };
   }
 
   // 获取指定文章
   async findById(id): Promise<PostsEntity> {
+    console.log(id, 'iid');
+
     return await this.postsRepository.findOne(id);
   }
 

@@ -12,7 +12,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor()); //全局注册拦截器
   app.useGlobalFilters(new HttpExceptionFilter()); //全局注册过滤器
   app.useGlobalPipes(new ValidationPipe());
-
+  app.enableCors();
   // swagger配置i
   const docConfig = new DocumentBuilder()
     .setTitle('狗蛋儿社区')

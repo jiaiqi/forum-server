@@ -46,7 +46,7 @@ export class AuthService {
       username: existUser.username,
       role: existUser.role,
     });
-    return { token };
+    return { token, ...existUser };
   }
 
   async getUser(user: User) {

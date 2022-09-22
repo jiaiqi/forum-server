@@ -7,7 +7,7 @@ import {
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception, host: ArgumentsHost) {
     const ctx = host.switchToHttp(); // 获取请求上下文
     const response = ctx.getResponse(); // 获取请求上下文中的 response对象
     const status = exception.getStatus(); // 获取异常状态码
@@ -17,11 +17,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const message = exception.message
       ? exception.message
       : `${status >= 500 ? 'Service Error' : 'Client Error'}`;
+    console.log(exception.message, exception, 'exception');
+
     const errorResponse = {
       data: {
-        error: message,
+        error: exception?.response?.message?.[0] || message,
       },
-      message: '请求失败',
+      message: ` 请求失败,${exception?.response?.message?.[0] || message}`,
       code: -1,
       url: request.originalUrl, // 错误的url地址
     };

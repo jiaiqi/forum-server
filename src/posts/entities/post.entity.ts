@@ -15,7 +15,7 @@ export class PostsEntity {
   @Column('text')
   content: string;
 
-  @Column({ default: '' })
+  @Column()
   thumb_url: string;
 
   @Column('tinyint')

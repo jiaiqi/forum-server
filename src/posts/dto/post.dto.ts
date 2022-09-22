@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, ApiParam } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreatePostDto {
@@ -24,6 +24,31 @@ export class CreatePostDto {
 
   @ApiPropertyOptional({ description: '文章标签' })
   readonly tag: string;
+}
+
+export class findAllPostDto {
+  @ApiProperty({
+    description: '每页数据条数',
+    example: 10,
+    required: false,
+  })
+  readonly pageSize?: number;
+
+  @ApiProperty({
+    description: '第几页',
+    example: 1,
+    required: false,
+  })
+  readonly pageNum?: number;
+}
+
+export class findByIdDto {
+  @ApiProperty({
+    description: '文章id',
+    example: '1',
+  })
+  @IsNotEmpty({ message: '文章id必填' })
+  readonly id?: number;
 }
 
 export class PostInfoDto {

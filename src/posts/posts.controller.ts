@@ -9,9 +9,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-post.dto';
-
+import { findAllPostDto, findByIdDto } from './dto/post.dto';
 @ApiTags('文章')
 @Controller('post')
 export class PostsController {
@@ -36,8 +41,8 @@ export class PostsController {
   @ApiOperation({
     summary: '获取文章列表',
   })
-  @Get()
-  async findAll(@Query() query): Promise<PostsRo> {
+  @Get('/list')
+  async findAll(@Query() query: findAllPostDto): Promise<PostsRo> {
     return await this.postsService.findAll(query);
   }
 
@@ -48,8 +53,9 @@ export class PostsController {
   @ApiOperation({
     summary: '获取指定文章',
   })
-  @Get(':id')
-  async findById(@Param('id') id) {
+  @Get('/findById')
+  async findById(@Query('id') id: findByIdDto) {
+    console.log(id, 'id');
     return await this.postsService.findById(id);
   }
 
