@@ -23,7 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       data: {
         error: exception?.response?.message?.[0] || message,
       },
-      message: ` 请求失败,${exception?.response?.message?.[0] || message}`,
+      msg: ` 请求失败,${exception?.response?.message?.[0] || message}`,
       code: -1,
       url: request.originalUrl, // 错误的url地址
     };

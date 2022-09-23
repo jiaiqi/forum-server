@@ -15,11 +15,19 @@ export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        return {
+        const res = {
           data,
+          page: {},
           code: 0,
           msg: '请求成功',
         };
+        if (data.list) {
+          res.data = data.list;
+        }
+        if (data.page) {
+          res.page = data.page;
+        }
+        return res;
       }),
     );
   }

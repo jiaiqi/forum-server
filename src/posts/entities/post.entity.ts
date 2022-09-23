@@ -15,8 +15,8 @@ export class PostsEntity {
   @Column('text')
   content: string;
 
-  @Column()
-  thumb_url: string;
+  @Column({ nullable: true })
+  cover_url: string;
 
   @Column('tinyint')
   type: number;

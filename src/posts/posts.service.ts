@@ -41,14 +41,13 @@ export class PostsService {
     const { pageNum = 1, pageSize = 10, ...params } = query;
     qb.limit(pageSize);
     qb.offset(pageSize * (pageNum - 1));
-
     const posts = await qb.getMany();
     return {
       list: posts,
       page: {
         count,
-        pageSize,
-        pageNum,
+        pageSize: Number(pageSize),
+        pageNum: Number(pageNum),
       },
     };
   }

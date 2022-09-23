@@ -29,7 +29,6 @@ export class PostsController {
   @ApiOperation({
     summary: '创建文章',
   })
-  @ApiBearerAuth()
   @Post()
   async create(@Body() post: CreatePostDto) {
     return await this.postsService.create(post);
