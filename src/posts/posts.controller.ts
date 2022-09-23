@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  RequestMapping,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -17,6 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-post.dto';
 import { findAllPostDto, findByIdDto } from './dto/post.dto';
+import { query } from 'express';
 @ApiTags('文章')
 @Controller('post')
 export class PostsController {
@@ -30,6 +32,7 @@ export class PostsController {
     summary: '创建文章',
   })
   @Post()
+  @ApiBearerAuth()
   async create(@Body() post: CreatePostDto) {
     return await this.postsService.create(post);
   }
@@ -41,6 +44,7 @@ export class PostsController {
     summary: '获取文章列表',
   })
   @Get('/list')
+  @ApiBearerAuth()
   async findAll(@Query() query: findAllPostDto): Promise<PostsRo> {
     return await this.postsService.findAll(query);
   }
@@ -52,9 +56,9 @@ export class PostsController {
   @ApiOperation({
     summary: '获取指定文章',
   })
-  @Get('/findById')
+  @ApiBearerAuth()
+  @Get()
   async findById(@Query('id') id: findByIdDto) {
-    console.log(id, 'id');
     return await this.postsService.findById(id);
   }
 
@@ -67,6 +71,7 @@ export class PostsController {
     summary: '更新文章',
   })
   @Put(':id')
+  @ApiBearerAuth()
   async update(@Param('id') id, @Body() post) {
     return await this.postsService.updateById(id, post);
   }
@@ -79,6 +84,7 @@ export class PostsController {
     summary: '删除文章',
   })
   @Delete('id')
+  @ApiBearerAuth()
   async remove(@Param('id') id) {
     return await this.postsService.remove(id);
   }

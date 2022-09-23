@@ -1,4 +1,8 @@
-import { ApiProperty, ApiPropertyOptional, ApiParam } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiPropertyOptional,
+} from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreatePostDto {
@@ -47,7 +51,6 @@ export class findByIdDto {
     description: '文章id',
     example: '1',
   })
-  @IsNotEmpty({ message: '文章id必填' })
   readonly id?: number;
 }
 

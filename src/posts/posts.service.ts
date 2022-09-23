@@ -54,8 +54,11 @@ export class PostsService {
 
   // 获取指定文章
   async findById(id): Promise<PostsEntity> {
-    console.log(id, 'iid');
-
+    console.log(id, 'id');
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .where('post.id = :id', { id: id })
+      .getOne();
     return await this.postsRepository.findOne(id);
   }
 
