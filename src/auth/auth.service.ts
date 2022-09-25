@@ -30,18 +30,18 @@ export class AuthService {
   async login(user: Partial<User>) {
     // 因为密码是加密后的，没办法直接对比用户名密码，只能先根据用户名查出用户，再比对密码
     if (!user) {
-      throw new BadRequestException('用户名不正确！');
+      throw new BadRequestException('用户名不正确');
     }
     const existUser = await this.userService.findOne(user.username);
     if (!compareSync(user.password, existUser.password)) {
-      throw new BadRequestException('密码错误！');
+      throw new BadRequestException('密码错误');
     }
     const token = this.createToken({
       // id: user.id,
       username: existUser.username,
       role: existUser.role,
     });
-    return { token, ...existUser };
+    return { token, user: existUser };
   }
 
   async getUser(user: User) {

@@ -35,7 +35,7 @@ export class PostsService {
   async findAll(query): Promise<PostsRo> {
     const qb = await this.postsRepository.createQueryBuilder('post');
     qb.where('1 = 1');
-    qb.orderBy('post.create_time', 'DESC');
+    qb.orderBy('post.createTime', 'DESC');
 
     const count = await qb.getCount();
     const { pageNum = 1, pageSize = 10, ...params } = query;

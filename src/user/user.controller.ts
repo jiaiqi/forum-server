@@ -40,18 +40,10 @@ export class UserController {
   @ApiResponse({ status: 201, type: [User] })
   @ApiBearerAuth() // swagger文档设置token
   @UseGuards(new JwtAuthGuard('jwt')) // 使用 'JWT' 进行验证
-  @Get('/find')
+  @Get('')
   async findUser(@Query('username') username: findUserDto) {
     console.log('username', username);
 
     return await this.userService.getUser(username);
   }
-
-  // @ApiOperation({ summary: '获取用户信息' })
-  // @ApiBearerAuth()
-  // @UseGuards(new JwtAuthGuard('jwt'))
-  // @Get()
-  // async getUserInfo(@Req() req) {
-  //   return req.user;
-  // }
 }

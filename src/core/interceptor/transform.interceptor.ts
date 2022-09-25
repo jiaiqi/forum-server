@@ -24,7 +24,7 @@ export class TransformInterceptor implements NestInterceptor {
         if (data && data.list) {
           res.data = data.list;
         }
-        if (data && data.page) {
+        if (data?.page?.pageSize) {
           res.page = data.page;
         }
         return res;

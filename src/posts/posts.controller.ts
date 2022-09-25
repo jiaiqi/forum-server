@@ -54,7 +54,7 @@ export class PostsController {
    * @param id
    */
   @ApiOperation({
-    summary: '获取指定文章',
+    summary: '根据id查找文章',
   })
   @ApiBearerAuth()
   @Get()
