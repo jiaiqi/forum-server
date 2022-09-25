@@ -14,16 +14,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest();
 
     // 设置错误信息
-    const message = exception.message
-      ? exception.message
-      : `${status >= 500 ? 'Service Error' : 'Client Error'}`;
-    console.log(exception.message, exception, 'exception');
-
+    let message = '';
+    // `${status >= 500 ? 'Service Error' : 'Client Error'}`;
+    if (typeof exception?.response?.message === 'string') {
+      message += `${exception?.response?.message};`;
+    } else if (
+      Array.isArray(exception?.response?.message) &&
+      exception?.response?.message.length > 0
+    ) {
+      message = `${exception?.response?.message.join('')};`;
+    }
     const errorResponse = {
       data: {
-        error: exception?.response?.message?.[0] || message,
+        error: message,
       },
-      msg: ` 请求失败,${exception?.response?.message?.[0] || message}`,
+      // error: exception,
+      msg: `${message}`,
       code: -1,
       url: request.originalUrl, // 错误的url地址
     };

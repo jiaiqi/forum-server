@@ -4,9 +4,15 @@ import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.useStaticAssets(join(__dirname, 'file'), {
+    prefix: '/file',
+  });
 
   app.enableCors(); //允许跨域
 

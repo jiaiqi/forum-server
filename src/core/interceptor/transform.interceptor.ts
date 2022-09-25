@@ -21,10 +21,10 @@ export class TransformInterceptor implements NestInterceptor {
           code: 0,
           msg: '请求成功',
         };
-        if (data.list) {
+        if (data && data.list) {
           res.data = data.list;
         }
-        if (data.page) {
+        if (data && data.page) {
           res.page = data.page;
         }
         return res;

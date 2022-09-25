@@ -25,6 +25,8 @@ export class UserService {
   }
 
   async getUser(username) {
+    console.log(username, 'username');
+
     return await this.userRepository.findOne({
       where: { username },
     });

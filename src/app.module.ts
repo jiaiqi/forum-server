@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { database } from './config/dataabase.config';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { database } from './config/dataabase.config';
     PostsModule,
     UserModule,
     AuthModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

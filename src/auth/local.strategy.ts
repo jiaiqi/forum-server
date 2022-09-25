@@ -1,5 +1,5 @@
 import { compareSync } from 'bcryptjs';
-import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IStrategyOptions, Strategy } from 'passport-local';

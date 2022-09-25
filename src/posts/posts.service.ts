@@ -54,7 +54,6 @@ export class PostsService {
 
   // 获取指定文章
   async findById(id): Promise<PostsEntity> {
-    console.log(id, 'id');
     return this.postsRepository
       .createQueryBuilder('post')
       .where('post.id = :id', { id: id })

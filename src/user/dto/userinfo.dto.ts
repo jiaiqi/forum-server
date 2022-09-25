@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
+export class findUserDto {
+  @ApiProperty({ description: '用户名', example: 'jiaqi' })
+  username: string;
+}
+
 export class UserInfoDto {
   @ApiProperty({ description: '用户名' })
   @IsNotEmpty()

@@ -16,16 +16,6 @@ const jwtModule = JwtModule.register({
   secret: 'GouDanEr',
   signOptions: { expiresIn: '1d' },
 });
-// 这里不建议将秘钥写死在代码也， 它应该和数据库配置的数据一样，从环境变量中来
-// const jwtModule = JwtModule.registerAsync({
-//   inject: [ConfigService],
-//   useFactory: async (configService: ConfigService) => {
-//     return {
-//       secret: configService.get('SECRET'),
-//       signOptions: { expiresIn: '4h' },
-//     };
-//   },
-// });
 
 @Module({
   imports: [
