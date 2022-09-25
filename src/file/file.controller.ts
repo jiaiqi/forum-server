@@ -8,7 +8,7 @@ import {
   Query,
   Body,
 } from '@nestjs/common';
-import { UploadService } from './file.service';
+import { FileService } from './file.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
@@ -19,8 +19,8 @@ import { downloadDto, uploadDto } from './dto/file.dto';
 import { createWriteStream } from 'fs';
 @ApiTags('文件')
 @Controller('file')
-export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+export class FileController {
+  constructor(private readonly FileService: FileService) {}
 
   @ApiOperation({
     summary: '上传文件',
@@ -28,14 +28,22 @@ export class UploadController {
   @Post('upload')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  upload(@Body() body: uploadDto, @UploadedFile() file) {
-    return {
-      filePath: join(
+  async upload(@Body() body: uploadDto, @UploadedFile() file) {
+    const res = {
+      filepath: join(
         __dirname,
         `../public/upload/${dayjs().format('YYYYMMDD')}/${file.originalname}`,
       ),
-      fileName: `${dayjs().format('YYYYMMDD')}_${file.originalname}`,
+      filename: `${dayjs().format('YYYYMMDD')}_${file.originalname}`,
+    };
+    const createFile = await this.FileService.create(res);
+    console.log(createFile);
+
+    return {
+      filename: file.originalname,
+      fileid: createFile.id,
       __msg: '上传成功',
+      createTime: createFile.createTime,
     };
   }
 

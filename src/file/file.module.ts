@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { UploadService } from './file.service';
-import { UploadController } from './file.controller';
+import { FileService } from './file.service';
+import { FileController } from './file.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import * as dayjs from 'dayjs';
+import { FileEntity } from './entities/file.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([FileEntity]),
     MulterModule.register({
       storage: diskStorage({
         destination: join(
@@ -21,7 +24,8 @@ import * as dayjs from 'dayjs';
       }),
     }),
   ],
-  controllers: [UploadController],
-  providers: [UploadService],
+  controllers: [FileController],
+  providers: [FileService],
+  // exports: [FileService],
 })
 export class FileModule {}
