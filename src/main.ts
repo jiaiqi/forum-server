@@ -4,6 +4,7 @@ import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,6 +27,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, docConfig);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(PORT);
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  await app.listen(PORT, '0.0.0.0');
 }
 bootstrap();
