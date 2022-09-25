@@ -1,5 +1,11 @@
 //    posts/posts.entity.ts
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('posts')
 export class PostsEntity {
@@ -21,9 +27,15 @@ export class PostsEntity {
   @Column('tinyint')
   type: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  create_time: Date;
+  // 特殊列，自动为实体插入日期。无需设置此列，该值将自动设置。
+  @CreateDateColumn({
+    comment: '创建时间',
+  })
+  createTime: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  update_time: Date;
+  // 特殊列，在每次调用实体管理器或存储库的`save`时，自动更新实体日期。无需设置此列，该值将自动设置。
+  @UpdateDateColumn({
+    comment: '更新时间',
+  })
+  updateTime: Date;
 }
