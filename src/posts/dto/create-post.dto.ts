@@ -1,11 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 export class CreatePostDto {
   @ApiProperty({
     description: '文章标题',
   })
   @IsString()
   @IsNotEmpty({ message: '文章标题为必填' })
+  @MaxLength(255, {
+    always: true,
+    message: '文章标题长度最大为$constraint1',
+  })
   readonly title: string;
 
   @ApiProperty({
