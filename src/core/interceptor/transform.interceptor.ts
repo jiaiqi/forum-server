@@ -27,6 +27,11 @@ export class TransformInterceptor implements NestInterceptor {
         if (data?.page?.pageSize) {
           res.page = data.page;
         }
+        if (data?.__msg) {
+          // 自定义提示
+          res.msg = data?.__msg;
+          delete data?.__msg;
+        }
         return res;
       }),
     );

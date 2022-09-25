@@ -14,14 +14,8 @@ export class uploadDto {
 
 export class downloadDto {
   @ApiProperty({
-    description: '文件目录',
-    example: '20220925',
-  })
-  readonly dir?: string;
-
-  @ApiProperty({
     description: '文件名',
-    example: '1646217506940.jpg',
+    example: '20220925_1646217507126.jpg',
   })
   readonly filename?: string;
 }

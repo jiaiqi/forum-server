@@ -1,7 +1,16 @@
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('用户')
@@ -12,6 +21,7 @@ export class AuthController {
   @ApiOperation({ summary: '登录' })
   @Post('login')
   @UseGuards(AuthGuard('local'))
+  @UseInterceptors(ClassSerializerInterceptor)
   async login(@Body() user: LoginDto) {
     return await this.authService.login(user);
   }
@@ -20,6 +30,7 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   @ApiBearerAuth()
+  @UseInterceptors(ClassSerializerInterceptor)
   getProfile(@Req() req) {
     return req.user;
   }

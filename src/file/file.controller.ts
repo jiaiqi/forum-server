@@ -32,9 +32,10 @@ export class UploadController {
     return {
       filePath: join(
         __dirname,
-        `../public/upload/${dayjs().format('YYYYMMDD')}`,
+        `../public/upload/${dayjs().format('YYYYMMDD')}/${file.originalname}`,
       ),
-      ...file,
+      fileName: `${dayjs().format('YYYYMMDD')}_${file.originalname}`,
+      __msg: '上传成功',
     };
   }
 
@@ -49,16 +50,12 @@ export class UploadController {
       const fileUrl = join(
         __dirname,
         '../../public/upload',
-        `${Date.now()}-${file.originalname}`,
+        `${Date.now()}/${file.originalname}`,
       );
       const writeImage = createWriteStream(fileUrl);
       writeImage.write(file.buffer);
     }
     return '上传图片成功';
-    return {
-      filePath: join(__dirname, `../file/${dayjs().format('YYYYMMDD')}`),
-      ...files,
-    };
   }
 
   @ApiOperation({
@@ -66,8 +63,10 @@ export class UploadController {
   })
   @Get('download')
   downLoad(@Query() req: downloadDto, @Res() res: Response) {
-    if (req?.dir && req?.filename) {
-      const url = join(__dirname, `../file/${req.dir}/${req.filename}`);
+    if (req?.filename) {
+      const dir = req?.filename.split('_')[0];
+      const filename = req?.filename.split('_')[1];
+      const url = join(__dirname, `../public/upload/${dir}/${filename}`);
       res.download(url);
     }
   }
@@ -77,15 +76,19 @@ export class UploadController {
   })
   @Get('zip')
   async stream(@Query() req: downloadDto, @Res() res: Response) {
-    const url = join(__dirname, `../attachment/${req.dir}/${req.filename}`);
-    const tarStream = new zip.Stream();
-    await tarStream.addEntry(url);
+    if (req?.filename && req?.filename.indexOf('_') !== -1) {
+      const dir = req?.filename.split('_')[0];
+      const filename = req?.filename.split('_')[1];
+      const url = join(__dirname, `../attachment/${dir}/${filename}`);
+      const tarStream = new zip.Stream();
+      await tarStream.addEntry(url);
 
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename=${req.filename}.zip`,
-    );
-    tarStream.pipe(res);
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename=${req.filename}.zip`,
+      );
+      tarStream.pipe(res);
+    }
   }
 }

@@ -10,9 +10,12 @@ import * as dayjs from 'dayjs';
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: join(__dirname, `../file/${dayjs().format('YYYYMMDD')}`),
+        destination: join(
+          __dirname,
+          `../public/upload/${dayjs().format('YYYYMMDD')}`,
+        ),
         filename: (_, file, callback) => {
-          const fileName = file.originalname;
+          const fileName = `${file.originalname}`;
           return callback(null, fileName);
         },
       }),
