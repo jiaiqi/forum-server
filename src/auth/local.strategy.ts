@@ -25,6 +25,7 @@ export class LocalStorage extends PassportStrategy(Strategy) {
       .addSelect('user.password')
       .where('user.username=:username', { username })
       .getOne();
+    console.log(user, username, password, 'user');
 
     if (!user) {
       throw new BadRequestException('用户名不正确');

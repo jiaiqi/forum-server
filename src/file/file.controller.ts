@@ -30,16 +30,20 @@ export class FileController {
   @UseInterceptors(FileInterceptor('file'))
   async upload(@Body() body: uploadDto, @UploadedFile() file) {
     const res = {
-      filepath: join(
-        __dirname,
-        `../public/upload/${dayjs().format('YYYYMMDD')}/${file.originalname}`,
-      ),
+      filepath: `/api/file/download?filename=${dayjs().format('YYYYMMDD')}_${
+        file.originalname
+      }`,
+      // filepath: join(
+      //   __dirname,
+      //   `../public/upload/${dayjs().format('YYYYMMDD')}/${file.originalname}`,
+      // ),
       filename: `${dayjs().format('YYYYMMDD')}_${file.originalname}`,
     };
     const createFile = await this.FileService.create(res);
     console.log(createFile);
 
     return {
+      filepath: res.filepath,
       filename: file.originalname,
       fileid: createFile.id,
       __msg: '上传成功',

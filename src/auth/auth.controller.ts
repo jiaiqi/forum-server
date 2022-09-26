@@ -23,6 +23,8 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @UseInterceptors(ClassSerializerInterceptor)
   async login(@Body() user: LoginDto) {
+    console.log(user);
+
     return await this.authService.login(user);
   }
 
