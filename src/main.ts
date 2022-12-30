@@ -6,6 +6,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -14,7 +15,10 @@ async function bootstrap() {
     prefix: '/file',
   });
 
-  app.enableCors(); //允许跨域
+  app.enableCors({
+    // 允许的请求源
+    origin: '*',
+  }); //允许跨域
 
   const PORT = 3366;
   app.setGlobalPrefix('api'); //设置全局路由前缀
@@ -32,6 +36,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, docConfig);
   SwaggerModule.setup('docs', app, document);
 
+  app.useWebSocketAdapter(new WsAdapter(app));
   await app.listen(PORT);
 }
 bootstrap();
